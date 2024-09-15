@@ -7,9 +7,7 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
   background-color: #faf7f2;
 }
-.btn-color {
+button[color="primary"] {
   background-color: #ffb314 !important;
-  // :active {
-  //   background-color: #ffb61e !important;
-  // }
+  color: black !important;
 }

@@ -21,21 +21,17 @@
       <app-header></app-header>
       <div class="d-flex justify-content-between align-items-center header">
         <h2 class="m-0">Planning Projects</h2>
-        <button mat-mini-fab class="shadow-none btn-color btn-circle">
+        <button
+          mat-mini-fab
+          color="primary"
+          class="shadow-none btn-circle"
+          (click)="openDialog()"
+        >
           <mat-icon>add</mat-icon>
         </button>
       </div>
       <div class="row gap-4 projects-container mx-auto rounded-3">
-        <div class="col-md-3 rounded-4 p-0">
-          <app-project-card></app-project-card>
-        </div>
-        <div class="col-md-3 rounded-4 p-0">
-          <app-project-card></app-project-card>
-        </div>
-        <div class="col-md-3 rounded-4 p-0">
-          <app-project-card></app-project-card>
-        </div>
-        <div class="col-md-3 rounded-4 p-0">
+        <div class="col-md-3 rounded-4 p-0 custom-card">
           <app-project-card></app-project-card>
         </div>
       </div>

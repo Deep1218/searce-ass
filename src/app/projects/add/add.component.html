@@ -1,0 +1,34 @@
+<div class="d-flex justify-content-between align-items-center border-bottom">
+  <h2 mat-dialog-title>Create Planning Project</h2>
+  <button
+    mat-mini-fab
+    mat-dialog-close
+    class="shadow-none bg-white border mx-3"
+  >
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+<mat-dialog-content class="overflow-hidden">
+  <form>
+    <mat-label class="form-label">Project Name</mat-label>
+    <mat-form-field appearance="outline" class="full-width">
+      <input matInput placeholder="Enter budget in INR" required />
+    </mat-form-field>
+
+    <mat-label class="form-label">Project description</mat-label>
+    <mat-form-field appearance="outline" class="full-width">
+      <input matInput placeholder="Enter description" required />
+    </mat-form-field>
+
+    <mat-label class="form-label">Co-planner</mat-label>
+    <mat-form-field appearance="outline" class="full-width">
+      <input matInput placeholder="Add any co-planner" />
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end" class="border-top">
+  <button type="submit" mat-flat-button color="primary" class="rounded-5">
+    Create
+  </button>
+</mat-dialog-actions>
