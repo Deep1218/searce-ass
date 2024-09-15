@@ -1,0 +1,22 @@
+<mat-card class="border border-1 p-0 project-card rounded-3 shadow-none">
+  <mat-card-header class="card-header shadow-sm rounded-top-3">
+    <mat-card-title>{{ project.title }}</mat-card-title>
+    <mat-card-subtitle class="py-1">{{ project.subtitle }}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="d-flex flex-column align-items-start gap-2 mt-5">
+      <div>
+        <span><strong>Budget:</strong></span>
+        <p>{{ project.budget }}</p>
+      </div>
+      <div>
+        <span><strong>Total No. of Positions:</strong></span>
+        <p>{{ project.positions }}</p>
+      </div>
+      <div>
+        <span><strong>Co-planners:</strong></span>
+        <p>{{ project.coPlanners }}</p>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

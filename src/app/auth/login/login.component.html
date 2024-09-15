@@ -1,0 +1,48 @@
+<div class="login-container">
+  <mat-card>
+    <mat-card-content>
+      <div class="d-flex justify-content-center">
+        <img
+          src="assets/app_logo.svg"
+          class="img-thumbnail border-0"
+          alt="app_logo"
+        />
+        <img
+          src="assets/app_logo_text.svg"
+          class="img-thumbnail border-0 ms-2"
+          alt="app_logo_text"
+        />
+      </div>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="form-container">
+          <h2 class="mt-4">Login</h2>
+          <form class="mt-4">
+            <label for="email" class="form-label fs-6">Email ID</label>
+            <mat-form-field appearance="outline" class="w-100">
+              <input
+                type="email"
+                matInput
+                placeholder="Enter your email ID"
+                required
+              />
+            </mat-form-field>
+            <label for="password" class="form-label fs-6">Password</label>
+            <mat-form-field appearance="outline" class="w-100">
+              <input
+                type="password"
+                matInput
+                placeholder="Enter your password"
+                required
+              />
+            </mat-form-field>
+            <div class="d-flex justify-content-center align-items-center">
+              <button mat-raised-button class="rounded-5 btn-color shadow-none">
+                Login
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
