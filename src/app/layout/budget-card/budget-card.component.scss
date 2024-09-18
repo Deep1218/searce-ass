@@ -1,0 +1,76 @@
+.chart-card {
+  // padding: 20px;
+  width: 350px;
+  position: relative;
+}
+.card-title {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 700;
+  font-size: 18px;
+  color: #1d2939;
+}
+.edit-link {
+  color: #f39c12;
+  font-size: 14px;
+  font-style: italic;
+  font-weight: 400;
+}
+.chart-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  margin-bottom: 20px;
+}
+.chart-center {
+  position: absolute;
+  text-align: center;
+}
+.used {
+  font-size: 24px;
+  font-weight: bold;
+  color: #1d2939;
+}
+.positions {
+  font-size: 14px;
+  color: #6b7280;
+}
+.chart-legend {
+  margin-bottom: 20px;
+}
+.chart-legend ul {
+  padding: 0;
+  list-style-type: none;
+}
+.chart-legend li {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+.legend-color {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin-right: 8px;
+}
+.engineering {
+  background-color: #4db6ac;
+}
+.product {
+  background-color: #aed581;
+}
+.sales {
+  background-color: #ffb74d;
+}
+.others {
+  background-color: #80deea;
+}
+.budget-details {
+  margin-top: 20px;
+  font-size: 14px;
+}
+.budget-details p {
+  margin: 5px 0;
+}

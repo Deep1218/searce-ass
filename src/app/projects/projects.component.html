@@ -19,22 +19,9 @@
   <mat-sidenav-content>
     <div class="main-content">
       <app-header></app-header>
-      <div class="d-flex justify-content-between align-items-center header">
-        <h2 class="m-0">Planning Projects</h2>
-        <button
-          mat-mini-fab
-          color="primary"
-          class="shadow-none btn-circle"
-          (click)="openDialog()"
-        >
-          <mat-icon>add</mat-icon>
-        </button>
-      </div>
-      <div class="row gap-4 projects-container mx-auto rounded-3">
-        <div class="col-md-3 rounded-4 p-0 custom-card">
-          <app-project-card></app-project-card>
-        </div>
-      </div>
+      <section class="header">
+        <router-outlet></router-outlet>
+      </section>
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>

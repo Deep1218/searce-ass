@@ -1,0 +1,114 @@
+<div class="d-flex justify-content-start align-items-center">
+  <button mat-mini-fab color="white" class="shadow-none rounded-5 me-4 border">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <h2 class="m-0">Project Name</h2>
+</div>
+<!-- (click)="openDialog()" -->
+<div class="d-flex justify-content-between align-items-center mt-4">
+  <div class="d-flex justify-content-center align-items-center">
+    <form>
+      <mat-form-field
+        appearance="outline"
+        subscriptSizing="dynamic"
+        class="bg-white"
+      >
+        <input matInput placeholder="Search by name" />
+        <mat-icon matPrefix>search</mat-icon>
+      </mat-form-field>
+      <mat-form-field
+        appearance="outline"
+        subscriptSizing="dynamic"
+        class="bg-white ms-3"
+      >
+        <mat-select value="designation" name="filter">
+          <mat-option value="designation">designation</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </form>
+  </div>
+  <button mat-raised-button color="primary" class="shadow-none rounded-5">
+    <mat-icon class="me-1">add</mat-icon>
+    Create Position
+  </button>
+</div>
+<section class="overflow-y-auto dynamic-height">
+  <div class="row gap-1 mt-4">
+    <div class="col-md-8 dynamic-height overflow-y-auto">
+      <table
+        mat-table
+        [dataSource]="dataSource"
+        class="w-full mat-elevation-z1"
+      >
+        <!-- Designation Column -->
+        <ng-container matColumnDef="designation">
+          <th mat-header-cell *matHeaderCellDef>Designation</th>
+          <td mat-cell *matCellDef="let element">{{ element.designation }}</td>
+        </ng-container>
+
+        <!-- Department Column -->
+        <ng-container matColumnDef="department">
+          <th mat-header-cell *matHeaderCellDef>Department</th>
+          <td mat-cell *matCellDef="let element">{{ element.department }}</td>
+        </ng-container>
+
+        <!-- Budget Column -->
+        <ng-container matColumnDef="budget">
+          <th mat-header-cell *matHeaderCellDef>Budget</th>
+          <td mat-cell *matCellDef="let element">{{ element.budget }}</td>
+        </ng-container>
+
+        <!-- Location Column -->
+        <ng-container matColumnDef="location">
+          <th mat-header-cell *matHeaderCellDef>Location</th>
+          <td mat-cell *matCellDef="let element">{{ element.location }}</td>
+        </ng-container>
+
+        <!-- Last Updated Column -->
+        <ng-container matColumnDef="lastUpdated">
+          <th mat-header-cell *matHeaderCellDef>Last Updated</th>
+          <td mat-cell *matCellDef="let element">
+            <div class="row">
+              <div class="col-12">
+                <span class="user">{{ element.lastUpdated.user }}</span>
+              </div>
+              <div class="col-12">
+                <span class="text-muted">{{
+                  element.lastUpdated.date | date : "medium"
+                }}</span>
+              </div>
+            </div>
+          </td>
+        </ng-container>
+
+        <!-- Delete Column -->
+        <ng-container matColumnDef="delete">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button (click)="deleteRow(element)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr
+          mat-header-row
+          *matHeaderRowDef="displayedColumns; sticky: true"
+        ></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+
+      <!-- Pagination controls -->
+      <!-- <mat-paginator
+        [length]="totalItems"
+        [pageSize]="50"
+        [pageSizeOptions]="[50, 100, 150]"
+      >
+    </mat-paginator> -->
+    </div>
+
+    <div class="col-md-3">
+      <app-budget-card></app-budget-card>
+    </div>
+  </div>
+</section>

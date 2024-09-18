@@ -1,0 +1,56 @@
+.dynamic-height {
+  height: calc(100vh - 14em);
+}
+button[color="white"] {
+  border-color: #ffb314 !important;
+}
+
+table {
+  /* Header Styling */
+  th.mat-mdc-header-cell {
+    background-color: #f7f6fb !important; /* Light gray background color */
+    color: #293956; /* Dark text color */
+    font-weight: 600; /* Bold header text */
+    padding: 16px 10px; /* Padding to match design */
+    font-size: 14px; /* Font size matching the design */
+    text-align: left;
+  }
+
+  /* Table Cell Styling */
+  td.mat-cell {
+    padding: 16px 10px; /* Same padding as header for consistency */
+    font-size: 14px; /* Font size for table body */
+    color: #333; /* Text color */
+    border-bottom: 1px solid #dee2e6; /* Light border between rows */
+  }
+
+  /* Add some box-shadow to the table header for better definition */
+  mat-header-row {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for header */
+    position: sticky;
+    top: 0;
+    z-index: 1;
+  }
+
+  /* Styling for the scrollable body */
+  .dynamic-height {
+    max-height: 500px; /* Set height for scroll */
+    overflow-y: auto; /* Enable vertical scroll */
+  }
+
+  /* Mat-elevation for box shadow on the table */
+  .mat-elevation-z1 {
+    box-shadow: 0px 2px 2px -1px rgba(0, 0, 0, 0.2),
+      0px 1px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+  }
+
+  /* Styling the last column (delete icon) */
+  td.mat-cell:last-child {
+    text-align: center;
+  }
+
+  /* Styling for delete button */
+  // button.mat-icon-button {
+  //   color: #d9534f; /* Delete button color */
+  // }
+}
