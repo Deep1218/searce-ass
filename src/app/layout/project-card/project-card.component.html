@@ -1,21 +1,21 @@
 <mat-card class="border border-1 p-0 project-card rounded-top-3 shadow-none">
   <mat-card-header class="card-header shadow-sm rounded-top-3">
-    <mat-card-title>{{ project.title }}</mat-card-title>
-    <mat-card-subtitle class="py-1">{{ project.subtitle }}</mat-card-subtitle>
+    <mat-card-title>{{ data.name }}</mat-card-title>
+    <mat-card-subtitle class="py-1">{{ data.description }}</mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
     <div class="d-flex flex-column align-items-start gap-2 mt-5">
       <div>
         <span><strong>Budget:</strong></span>
-        <p>{{ project.budget }}</p>
+        <p>{{ data.totalBudget }}</p>
       </div>
       <div>
         <span><strong>Total No. of Positions:</strong></span>
-        <p>{{ project.positions }}</p>
+        <p>{{ data.positions ?? "-" }}</p>
       </div>
       <div>
         <span><strong>Co-planners:</strong></span>
-        <p>{{ project.coPlanners }}</p>
+        <p *ngFor="let planner of data.planners">{{ planner.planner_name }}</p>
       </div>
     </div>
   </mat-card-content>

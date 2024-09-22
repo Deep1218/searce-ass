@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 
 @Component({
@@ -10,12 +10,6 @@ import { MatCardModule } from '@angular/material/card';
   styleUrl: './project-card.component.scss',
 })
 export class ProjectCardComponent {
-  project = {
-    title: 'Title',
-    subtitle: 'Subtitle',
-    budget: '1.5 CR',
-    positions: 66,
-    coPlanners: 'Yeah Mehta',
-  };
+  @Input() data: any;
   colSpan = 'col-md-3';
 }

@@ -8,27 +8,57 @@
     <mat-icon>close</mat-icon>
   </button>
 </div>
-<mat-dialog-content class="overflow-hidden">
-  <form>
+<form [formGroup]="projectForm" (submit)="onSubmit()">
+  <mat-dialog-content class="overflow-hidden">
     <mat-label class="form-label">Project Name</mat-label>
     <mat-form-field appearance="outline" class="full-width">
-      <input matInput placeholder="Enter budget in INR" required />
+      <input matInput placeholder="Enter name" formControlName="name" />
     </mat-form-field>
 
     <mat-label class="form-label">Project description</mat-label>
     <mat-form-field appearance="outline" class="full-width">
-      <input matInput placeholder="Enter description" required />
+      <input
+        matInput
+        placeholder="Enter description"
+        formControlName="description"
+      />
     </mat-form-field>
 
     <mat-label class="form-label">Co-planner</mat-label>
     <mat-form-field appearance="outline" class="full-width">
-      <input matInput placeholder="Add any co-planner" />
+      <input
+        matInput
+        placeholder="Add any co-planner"
+        formControlName="planners"
+        [matAutocomplete]="planner"
+      />
+      <mat-autocomplete
+        #planner="matAutocomplete"
+        [displayWith]="getPlannerName.bind(this)"
+      >
+        @for(user of planners;track user){
+        <mat-option [value]="user.id">{{ user.name }}</mat-option>
+        }
+      </mat-autocomplete>
     </mat-form-field>
-  </form>
-</mat-dialog-content>
-
-<mat-dialog-actions align="end" class="border-top">
-  <button type="submit" mat-flat-button color="primary" class="rounded-5">
-    Create
-  </button>
-</mat-dialog-actions>
+  </mat-dialog-content>
+  <!-- <input type="text" placeholder="search title" matInput
+  [formControlName]="'title'" [matAutocomplete]="title"
+  (input)="getSearchData($event)" />
+<mat-autocomplete #title="matAutocomplete" [displayWith]="getTitle.bind(this)"
+  (optionSelected)="
+      selectClassification($event)
+  ">
+  <mat-option *ngFor="
+          let option of filteredTitleOptions
+              | async
+      " [value]="option._id">
+      {{ option.title }}
+  </mat-option>
+</mat-autocomplete> -->
+  <mat-dialog-actions align="end" class="border-top">
+    <button type="submit" mat-flat-button color="primary" class="rounded-5">
+      Create
+    </button>
+  </mat-dialog-actions>
+</form>

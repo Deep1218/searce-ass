@@ -16,15 +16,17 @@
       <div class="d-flex justify-content-center align-items-center">
         <div class="form-container">
           <h2 class="mt-4">Login</h2>
-          <form class="mt-4">
+          <form class="mt-4" (submit)="onSubmit()" [formGroup]="loginForm">
             <label for="email" class="form-label fs-6">Email ID</label>
             <mat-form-field appearance="outline" class="w-100">
               <input
                 type="email"
                 matInput
                 placeholder="Enter your email ID"
+                formControlName="email"
                 required
               />
+              <mat-error>Email is required</mat-error>
             </mat-form-field>
             <label for="password" class="form-label fs-6">Password</label>
             <mat-form-field appearance="outline" class="w-100">
@@ -32,11 +34,14 @@
                 type="password"
                 matInput
                 placeholder="Enter your password"
+                formControlName="password"
                 required
               />
+              <mat-error>Password is required</mat-error>
             </mat-form-field>
             <div class="d-flex justify-content-center align-items-center">
               <button
+                type="submit"
                 mat-raised-button
                 color="primary"
                 class="rounded-5 shadow-none"

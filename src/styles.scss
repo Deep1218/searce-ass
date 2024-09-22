@@ -11,3 +11,26 @@ button[color="primary"] {
   background-color: #ffb314 !important;
   color: black !important;
 }
+.mat-mdc-snack-bar-container {
+  border-radius: 6px;
+
+  .mdc-snackbar__surface {
+    background-color: transparent !important;
+
+    .mat-mdc-snack-bar-label {
+      color: #000 !important;
+    }
+  }
+
+  &.success {
+    background-color: #f4e4c8 !important;
+    border: 1px solid #ffb314;
+    color: #000 !important;
+  }
+
+  &.error {
+    background-color: #ffd3d3 !important;
+    border: 1px solid #ffbaba;
+    color: #000 !important;
+  }
+}
