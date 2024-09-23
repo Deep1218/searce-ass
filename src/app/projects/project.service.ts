@@ -36,7 +36,6 @@ export class ProjectService {
   }
 
   getProject() {
-    console.log('Called==========', this.projectId);
     return this.http.get(`/projects/${this.projectId}`);
   }
 
@@ -65,6 +64,10 @@ export class ProjectService {
     return this.http.get(`/positions/project/${this.projectId}`, {
       params: { search, searchBy },
     });
+  }
+
+  deletePosition(id: string) {
+    return this.http.delete(`/positions/${id}`);
   }
   createPosition(data: any) {
     this.socketService.emit('position:create', data);

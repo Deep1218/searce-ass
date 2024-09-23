@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -12,7 +12,11 @@ import { debounce, debounceTime, Subject, takeUntil } from 'rxjs';
 import { CommonService } from '../../shared/common.service';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import {
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogModule,
+} from '@angular/material/dialog';
 import { AddPositionComponent } from './add-position/add-position.component';
 import { CurrencyToShortcodePipe } from '../../shared/pipes/currency-to-shortcode.pipe';
 import {
@@ -57,6 +61,8 @@ export class PlanningDetailsComponent implements OnInit {
   positions: any[] = [];
   totalItems = this.positions.length;
   searchForm!: FormGroup;
+  dialogRef: any;
+  selectedPosition: any;
   private _unsubscribeAll: Subject<any> = new Subject<any>();
   constructor(
     private projectService: ProjectService,
@@ -97,7 +103,6 @@ export class PlanningDetailsComponent implements OnInit {
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe(
         (res: any) => {
-          console.log('Res data========>', res);
           this.positions = res.data;
           this.dataSource = new MatTableDataSource(this.positions);
         },
@@ -106,18 +111,60 @@ export class PlanningDetailsComponent implements OnInit {
         }
       );
   }
+  deleteConfirm(template: any, position: any) {
+    this.selectedPosition = position;
+    this.dialogRef = this.dialog.open(template, {
+      width: '300px',
+      data: position,
+    });
+    this.dialogRef
+      .afterClosed()
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe((confirm: boolean) => {
+        if (confirm) {
+          this.deleteRow();
+        } else {
+          this.selectedPosition = null;
+        }
+      });
+  }
 
-  deleteRow(element: any): void {
-    // TODO delete position api
-    this.dataSource.data = this.dataSource.data.filter(
-      (item) => item !== element
-    );
+  deleteRow(): void {
+    this.projectService
+      .deletePosition(this.selectedPosition.id)
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe(
+        (res: any) => {
+          this.dataSource.data = this.dataSource.data.filter(
+            (item) => item !== this.selectedPosition
+          );
+          const idx = this.positions.findIndex(
+            (ele) => ele.id === this.selectedPosition.id
+          );
+          if (idx > -1) {
+            this.positions.splice(idx, 1);
+          }
+          this.selectedPosition = null;
+          this.commonService.openSnackBar(res.message);
+        },
+        (err) => {
+          this.selectedPosition = null;
+          this.commonService.openErrorSnackBar(err.error.message);
+        }
+      );
   }
   openDialog() {
     const dialogRef = this.dialog.open(AddPositionComponent, {
       width: '600px',
       data: { projectId: this.projectId },
     });
+  }
+  onConfirm(): void {
+    this.dialogRef.close(true);
+  }
+
+  onCancel(): void {
+    this.dialogRef.close();
   }
   positionListners() {
     this.projectService

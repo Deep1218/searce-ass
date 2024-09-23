@@ -123,7 +123,6 @@ export class AddComponent implements OnInit, OnDestroy {
       .createdlistner()
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((data) => {
-        console.log('Project socket data========>', data);
         if (data.success) {
           this.commonService.openSnackBar(data.message);
           this.dialogRef.close();
@@ -135,7 +134,6 @@ export class AddComponent implements OnInit, OnDestroy {
       .updateListner()
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((data) => {
-        console.log('Project update socket data========>', data);
         if (data.success) {
           this.commonService.openSnackBar(data.message);
           this.dialogRef.close();

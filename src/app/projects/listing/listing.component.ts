@@ -42,7 +42,6 @@ export class ListingComponent implements OnInit {
     const dialogRef = this.dialog.open(AddComponent, {
       width: '600px',
     });
-    dialogRef.afterClosed().subscribe((data) => console.log('Dialog closed'));
   }
 
   onClickProject(id: string) {

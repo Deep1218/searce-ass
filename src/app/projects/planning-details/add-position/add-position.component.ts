@@ -84,7 +84,7 @@ export class AddPositionComponent implements OnInit {
     }
     this.projectService.createPosition({
       ...this.positionForm.getRawValue(),
-      projectId: this.dialogData.projectId,
+      projectId: this.projectService.projectId,
     });
   }
 }

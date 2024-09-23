@@ -95,10 +95,14 @@
         </ng-container>
 
         <!-- Delete Column -->
+        <!-- (click)="deleteRow(element)" -->
         <ng-container matColumnDef="delete">
           <th mat-header-cell *matHeaderCellDef></th>
           <td mat-cell *matCellDef="let element">
-            <button mat-icon-button (click)="deleteRow(element)">
+            <button
+              mat-icon-button
+              (click)="deleteConfirm(deleteConfirmation, element)"
+            >
               <mat-icon>delete</mat-icon>
             </button>
           </td>
@@ -129,3 +133,25 @@
   </mat-paginator> -->
   </div>
 </section>
+<ng-template #deleteConfirmation>
+  <div mat-dialog-content class="rounded-3">
+    <span class="fs-6 fw-medium">Are you sure you want to delete?</span>
+  </div>
+  <div mat-dialog-actions align="end">
+    <button
+      mat-raised-button
+      class="shadow-none rounded-5 border"
+      (click)="onCancel()"
+    >
+      Cancel
+    </button>
+    <button
+      mat-raised-button
+      color="primary"
+      class="shadow-none rounded-5"
+      (click)="onConfirm()"
+    >
+      Delete
+    </button>
+  </div>
+</ng-template>
