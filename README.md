@@ -1,17 +1,14 @@
 # Searce Assignment
 
-Sure! Here's the content formatted for a GitHub README:
-
-````markdown
 ## Getting Started
 
 Follow these steps to run the Angular project:
 
 1. **Clone the repository**:
+
    ```bash
    git clone https://github.com/Deep1218/searce-ass.git
    ```
-````
 
 2. **Install dependencies**:
 
