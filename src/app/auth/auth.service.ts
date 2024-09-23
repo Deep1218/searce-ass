@@ -7,21 +7,27 @@ import { BehaviorSubject, of, switchMap, tap, throwError } from 'rxjs';
   providedIn: 'root',
 })
 export class AuthService {
-  private baseUrl = environment.apiUrl;
   token!: string | null;
   authenticated: boolean = false;
   private _user: BehaviorSubject<any> = new BehaviorSubject(null);
-
+  private user: any;
   constructor(private http: HttpClient) {
     this.setToken();
   }
 
-  getUser$() {
-    return this._user.asObservable();
+  getUser() {
+    if (!this.user) {
+      this.user = JSON.parse(localStorage.getItem('user') as any);
+    }
+    return this.user;
   }
 
   setToken() {
     this.token = localStorage.getItem('token');
+  }
+  isLoggedIn(): boolean {
+    this.setToken();
+    return !!this.token;
   }
 
   check() {
@@ -50,8 +56,9 @@ export class AuthService {
         const { token, ...user } = res.data;
         this.authenticated = true;
         localStorage.setItem('token', token);
+        localStorage.setItem('user', JSON.stringify(user));
         this.setToken();
-        this._user.next(user);
+        this.user = user;
         return of(res);
       })
     );

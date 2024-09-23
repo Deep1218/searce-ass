@@ -94,8 +94,6 @@ export class AddComponent implements OnInit, OnDestroy {
       .getProject()
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((res: any) => {
-        console.log('Data==============>', res.data);
-
         this.projectForm.patchValue({
           name: res.data.name,
           description: res.data.description,

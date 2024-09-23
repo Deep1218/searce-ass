@@ -1,7 +1,9 @@
 <mat-card class="border border-1 p-0 project-card rounded-top-3 shadow-none">
   <mat-card-header class="card-header shadow-sm rounded-top-3">
     <mat-card-title>{{ data.name }}</mat-card-title>
-    <mat-card-subtitle class="py-1">{{ data.description }}</mat-card-subtitle>
+    <mat-card-subtitle class="py-1 text-truncate" style="max-width: 13em">{{
+      data.description
+    }}</mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
     <div class="d-flex flex-column align-items-start gap-2 mt-5">

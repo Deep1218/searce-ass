@@ -17,9 +17,6 @@ export const routes: Routes = [
           projects: () => inject(ProjectService).getProjects(),
         },
       },
-      //  resolve:{
-      //   positions: ()=>inject(ProjectService).getPositions()
-      // }
       { path: 'planning/:id', component: PlanningDetailsComponent },
     ],
   },

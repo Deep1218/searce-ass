@@ -21,6 +21,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-planning-details',
@@ -61,6 +62,7 @@ export class PlanningDetailsComponent implements OnInit, OnDestroy {
   dialogRef: any;
   selectedPosition: any;
   currentProject: any;
+  user: any;
 
   private _unsubscribeAll: Subject<any> = new Subject<any>();
   constructor(
@@ -69,7 +71,8 @@ export class PlanningDetailsComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private dialog: MatDialog,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private authService: AuthService
   ) {}
 
   goBack() {
@@ -79,6 +82,9 @@ export class PlanningDetailsComponent implements OnInit, OnDestroy {
     return this.searchForm.controls;
   }
   ngOnInit() {
+    this.user = this.authService.getUser();
+    console.log('User============>', this.user);
+
     this.route.params
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((params: any) => {
@@ -189,6 +195,7 @@ export class PlanningDetailsComponent implements OnInit, OnDestroy {
             this.dataSource = new MatTableDataSource(this.positions);
             this.dialog.closeAll();
             this.commonService.openSnackBar(res.message);
+            this.projectService.getGraphData();
           } else if (res.error) {
             this.commonService.openErrorSnackBar(res.message);
           }
