@@ -9,11 +9,17 @@ export const routes: Routes = [
   {
     path: '',
     component: ProjectsComponent,
-    resolve: {
-      projects: () => inject(ProjectService).getProjects(),
-    },
     children: [
-      { path: '', component: ListingComponent },
+      {
+        path: '',
+        component: ListingComponent,
+        resolve: {
+          projects: () => inject(ProjectService).getProjects(),
+        },
+      },
+      //  resolve:{
+      //   positions: ()=>inject(ProjectService).getPositions()
+      // }
       { path: 'planning/:id', component: PlanningDetailsComponent },
     ],
   },

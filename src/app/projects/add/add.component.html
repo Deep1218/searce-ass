@@ -1,5 +1,7 @@
 <div class="d-flex justify-content-between align-items-center border-bottom">
-  <h2 mat-dialog-title>Create Planning Project</h2>
+  <h2 mat-dialog-title>
+    @if(projectId){Update} @else{Create} Planning Project
+  </h2>
   <button
     mat-mini-fab
     mat-dialog-close
@@ -24,6 +26,42 @@
       />
     </mat-form-field>
 
+    @if(projectId){
+    <div class="row">
+      <div class="col-6">
+        <mat-label class="form-label">Co-planner</mat-label>
+        <mat-form-field appearance="outline" class="full-width">
+          <input
+            matInput
+            placeholder="Add any co-planner"
+            formControlName="planners"
+            [matAutocomplete]="planner"
+          />
+          <mat-autocomplete
+            #planner="matAutocomplete"
+            [displayWith]="getPlannerName.bind(this)"
+          >
+            @for(user of planners;track user){
+            <mat-option [value]="user.id">{{ user.name }}</mat-option>
+            }
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+      <div class="col-6">
+        <mat-label class="form-label">Project Budget</mat-label>
+        <mat-form-field appearance="outline" class="full-width">
+          <input
+            matInput
+            placeholder="Enter budget"
+            formControlName="totalBudget"
+            (keyup)="formatBudget($event)"
+            [value]="formattedBudget"
+          />
+          <mat-error>Project budget is required</mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    } @else {
     <mat-label class="form-label">Co-planner</mat-label>
     <mat-form-field appearance="outline" class="full-width">
       <input
@@ -41,24 +79,11 @@
         }
       </mat-autocomplete>
     </mat-form-field>
+    }
   </mat-dialog-content>
-  <!-- <input type="text" placeholder="search title" matInput
-  [formControlName]="'title'" [matAutocomplete]="title"
-  (input)="getSearchData($event)" />
-<mat-autocomplete #title="matAutocomplete" [displayWith]="getTitle.bind(this)"
-  (optionSelected)="
-      selectClassification($event)
-  ">
-  <mat-option *ngFor="
-          let option of filteredTitleOptions
-              | async
-      " [value]="option._id">
-      {{ option.title }}
-  </mat-option>
-</mat-autocomplete> -->
   <mat-dialog-actions align="end" class="border-top">
     <button type="submit" mat-flat-button color="primary" class="rounded-5">
-      Create
+      @if(projectId){ Update } @else {Create}
     </button>
   </mat-dialog-actions>
 </form>

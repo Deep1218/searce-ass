@@ -10,10 +10,8 @@ export const authGuard: CanActivateFn = (route, state) => {
     .check()
     .pipe(
       switchMap((authenticated) => {
-        console.log('Working=============');
         if (!authenticated) {
           const urlTree = router.parseUrl(`login`);
-          console.log('Url========>', urlTree);
 
           return of(urlTree);
         }

@@ -1,7 +1,8 @@
 <mat-card class="chart-card">
   <mat-card-title class="card-title px-3 py-2">
     <div class="d-flex justify-content-start align-items-center">
-      Budget <a href="#" class="edit-link ms-2">Edit</a>
+      Budget
+      <span class="edit-link ms-2 fw-medium" (click)="openDialog()">Edit</span>
     </div>
   </mat-card-title>
   <mat-card-content class="p-0">
@@ -16,23 +17,53 @@
       >
       </canvas>
       <div class="chart-center">
-        <p class="used">1.5 Cr</p>
-        <p class="positions">Used</p>
-        <p class="positions">12 Positions</p>
+        <div
+          class="d-flex flex-column justify-content-center align-items-center"
+        >
+          <span class="d-block fs-3 fw-bold">1.5 Cr</span>
+          <span class="d-block fw-medium mt-2">Used</span>
+        </div>
+        <span class="d-block fw-semibold mt-4">12 Positions</span>
       </div>
     </div>
     <div class="chart-legend px-5">
       <ul>
-        <li><span class="legend-color engineering"></span> Engineering 30%</li>
-        <li><span class="legend-color product"></span> Product 20%</li>
-        <li><span class="legend-color sales"></span> Sales 30%</li>
-        <li><span class="legend-color others"></span> Others 10%</li>
+        <li>
+          <span class="legend-color engineering"></span>
+          <div class="d-flex justify-content-between align-items-center w-100">
+            Engineering <strong class="block">30%</strong>
+          </div>
+        </li>
+        <li>
+          <span class="legend-color product"></span>
+          <div class="d-flex justify-content-between align-items-center w-100">
+            Product <strong class="block">20%</strong>
+          </div>
+        </li>
+        <li>
+          <span class="legend-color sales"></span>
+          <div class="d-flex justify-content-between align-items-center w-100">
+            Sales <strong class="block">30%</strong>
+          </div>
+        </li>
+        <li>
+          <span class="legend-color others"></span>
+          <div class="d-flex justify-content-between align-items-center w-100">
+            Others <strong class="block">10%</strong>
+          </div>
+        </li>
       </ul>
     </div>
     <div class="budget-details border-top px-5 py-2">
-      <p><strong>Total budget:</strong> ₹ 2 Cr</p>
-      <p><strong>Used:</strong> ₹ 1.5 Cr</p>
-      <p><strong>Left:</strong> ₹ 50 L</p>
+      <p class="d-flex justify-content-between align-items-center w-100">
+        <strong>Total budget:</strong> ₹ 2 Cr
+      </p>
+      <p class="d-flex justify-content-between align-items-center w-100">
+        <strong>Used:</strong> ₹ 1.5 Cr
+      </p>
+      <p class="d-flex justify-content-between align-items-center w-100">
+        <strong>Left:</strong> ₹ 50 L
+      </p>
     </div>
   </mat-card-content>
 </mat-card>

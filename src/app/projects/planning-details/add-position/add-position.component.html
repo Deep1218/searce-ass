@@ -1,0 +1,89 @@
+<div class="d-flex justify-content-between align-items-center border-bottom">
+  <h2 mat-dialog-title>Create Position</h2>
+  <button
+    mat-mini-fab
+    mat-dialog-close
+    class="shadow-none bg-white border mx-3"
+  >
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+<form [formGroup]="positionForm" (submit)="onSubmit()">
+  <mat-dialog-content class="overflow-hidden">
+    <div class="row">
+      <div class="col-6">
+        <mat-label class="form-label">Designation</mat-label>
+        <mat-form-field appearance="outline" class="full-width">
+          <input
+            matInput
+            placeholder="Enter designation"
+            formControlName="designation"
+          />
+          <mat-error>Designation is required</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-6">
+        <mat-label class="form-label">Department</mat-label>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-select
+            placeholder="Enter department"
+            formControlName="department"
+          >
+            @for (department of departments; track department) {
+            <mat-option [value]="department">{{
+              department | titlecase
+            }}</mat-option>
+            }
+          </mat-select>
+          <mat-error>Department is required</mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-6">
+        <mat-label class="form-label">Location</mat-label>
+        <mat-form-field appearance="outline" class="full-width">
+          <input
+            matInput
+            placeholder="Enter location"
+            formControlName="location"
+          />
+          <mat-error>Location is required</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-6">
+        <mat-label class="form-label">Budget</mat-label>
+        <mat-form-field appearance="outline" class="full-width">
+          <input
+            matInput
+            placeholder="Enter budget"
+            formControlName="budget"
+            (keyup)="formatBudget($event)"
+            [value]="formattedBudget"
+          />
+          <mat-error>Budget is required</mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+  </mat-dialog-content>
+  <!-- <input type="text" placeholder="search title" matInput
+    [formControlName]="'title'" [matAutocomplete]="title"
+    (input)="getSearchData($event)" />
+  <mat-autocomplete #title="matAutocomplete" [displayWith]="getTitle.bind(this)"
+    (optionSelected)="
+        selectClassification($event)
+    ">
+    <mat-option *ngFor="
+            let option of filteredTitleOptions
+                | async
+        " [value]="option._id">
+        {{ option.title }}
+    </mat-option>
+  </mat-autocomplete> -->
+  <mat-dialog-actions align="end" class="border-top">
+    <button type="submit" mat-flat-button color="primary" class="rounded-5">
+      Create
+    </button>
+  </mat-dialog-actions>
+</form>

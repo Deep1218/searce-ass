@@ -4,16 +4,16 @@
   </button>
   <h2 class="m-0">Project Name</h2>
 </div>
-<!-- (click)="openDialog()" -->
+<!--  -->
 <div class="d-flex justify-content-between align-items-center mt-4">
   <div class="d-flex justify-content-center align-items-center">
-    <form>
+    <form [formGroup]="searchForm">
       <mat-form-field
         appearance="outline"
         subscriptSizing="dynamic"
         class="bg-white"
       >
-        <input matInput placeholder="Search by name" />
+        <input matInput placeholder="Search by name" formControlName="text" />
         <mat-icon matPrefix>search</mat-icon>
       </mat-form-field>
       <mat-form-field
@@ -21,20 +21,31 @@
         subscriptSizing="dynamic"
         class="bg-white ms-3"
       >
-        <mat-select value="designation" name="filter">
+        <mat-select
+          name="filter"
+          formControlName="filter"
+          (selectionChange)="searchPosition()"
+        >
           <mat-option value="designation">designation</mat-option>
+          <mat-option value="location">location</mat-option>
+          <mat-option value="department">department</mat-option>
         </mat-select>
       </mat-form-field>
     </form>
   </div>
-  <button mat-raised-button color="primary" class="shadow-none rounded-5">
+  <button
+    mat-raised-button
+    color="primary"
+    class="shadow-none rounded-5"
+    (click)="openDialog()"
+  >
     <mat-icon class="me-1">add</mat-icon>
     Create Position
   </button>
 </div>
 <section class="overflow-y-auto dynamic-height">
   <div class="row gap-1 mt-4">
-    <div class="col-md-8 dynamic-height overflow-y-auto">
+    <div class="col-md-8 dynamic-height overflow-auto">
       <table
         mat-table
         [dataSource]="dataSource"
@@ -55,7 +66,9 @@
         <!-- Budget Column -->
         <ng-container matColumnDef="budget">
           <th mat-header-cell *matHeaderCellDef>Budget</th>
-          <td mat-cell *matCellDef="let element">{{ element.budget }}</td>
+          <td mat-cell *matCellDef="let element">
+            {{ element.budget | currencyToShortcode }}
+          </td>
         </ng-container>
 
         <!-- Location Column -->
@@ -70,11 +83,11 @@
           <td mat-cell *matCellDef="let element">
             <div class="row">
               <div class="col-12">
-                <span class="user">{{ element.lastUpdated.user }}</span>
+                <span class="user">{{ element.user_name }}</span>
               </div>
               <div class="col-12">
                 <span class="text-muted">{{
-                  element.lastUpdated.date | date : "medium"
+                  element.updatedAt | date : "medium"
                 }}</span>
               </div>
             </div>
@@ -97,18 +110,22 @@
         ></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
       </table>
-
-      <!-- Pagination controls -->
-      <!-- <mat-paginator
-        [length]="totalItems"
-        [pageSize]="50"
-        [pageSizeOptions]="[50, 100, 150]"
-      >
-    </mat-paginator> -->
+      @if(positions.length === 0){
+      <div class="text-center p-4 bg-white">
+        <span class="fw-medium">No data found</span>
+      </div>
+      }
     </div>
 
     <div class="col-md-3">
       <app-budget-card></app-budget-card>
     </div>
+    <!-- Pagination controls -->
+    <!-- <mat-paginator
+      [length]="totalItems"
+      [pageSize]="50"
+      [pageSizeOptions]="[50, 100, 150]"
+    >
+  </mat-paginator> -->
   </div>
 </section>

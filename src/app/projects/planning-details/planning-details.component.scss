@@ -1,5 +1,6 @@
 .dynamic-height {
   height: calc(100vh - 14em);
+  overflow-x: hidden;
 }
 button[color="white"] {
   border-color: #ffb314 !important;

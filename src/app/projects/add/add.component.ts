@@ -1,7 +1,16 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogModule,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatIcon } from '@angular/material/icon';
@@ -32,9 +41,11 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
   styleUrl: './add.component.scss',
 })
 export class AddComponent implements OnInit, OnDestroy {
+  projectId!: string;
   planners!: Array<any>;
+  formattedBudget!: string;
   private _unsubscribeAll: Subject<any> = new Subject<any>();
-  projectForm: any;
+  projectForm!: FormGroup;
   constructor(
     private fb: FormBuilder,
     private projectService: ProjectService,
@@ -46,6 +57,7 @@ export class AddComponent implements OnInit, OnDestroy {
     return this.projectForm.controls;
   }
   ngOnInit(): void {
+    this.projectId = this.projectService.projectId ?? null;
     this.projectService
       .getPlanners()
       .pipe(takeUntil(this._unsubscribeAll))
@@ -63,15 +75,47 @@ export class AddComponent implements OnInit, OnDestroy {
       description: ['', [Validators.required]],
       planners: ['', [Validators.required]],
     });
+    if (this.projectId) {
+      this.controls['name'].disable();
+      this.controls['description'].disable();
+      this.controls['planners'].disable();
+      this.projectForm.addControl(
+        'totalBudget',
+        this.fb.control('0', Validators.required)
+      );
+      this.setupForm();
+    }
   }
+
+  setupForm() {
+    this.projectService
+      .getProject()
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe((res: any) => {
+        this.projectForm.patchValue({
+          name: res.data.name,
+          description: res.data.description,
+          planners: res.data.planners[0].planner_user_id,
+          totalBudget: res.data.totalBudget,
+        });
+        this.formattedBudget = this.addCommas(res.data.totalBudget);
+      });
+  }
+
   onSubmit() {
     if (this.projectForm.invalid) {
       return;
     }
-    console.log('Project data==========>', this.projectForm.getRawValue());
     let { planners, ...projectDetails } = this.projectForm.getRawValue();
     planners = [planners];
-    this.projectService.create({ ...projectDetails, planners });
+    if (this.projectId) {
+      this.projectService.update({
+        id: this.projectId,
+        totalBudget: projectDetails.totalBudget,
+      });
+    } else {
+      this.projectService.create({ ...projectDetails, planners });
+    }
   }
 
   projectListners() {
@@ -80,7 +124,19 @@ export class AddComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((data) => {
         console.log('Project socket data========>', data);
-        if (data.succes) {
+        if (data.success) {
+          this.commonService.openSnackBar(data.message);
+          this.dialogRef.close();
+        } else if (data.error) {
+          this.commonService.openErrorSnackBar(data.message);
+        }
+      });
+    this.projectService
+      .updateListner()
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe((data) => {
+        console.log('Project update socket data========>', data);
+        if (data.success) {
           this.commonService.openSnackBar(data.message);
           this.dialogRef.close();
         } else if (data.error) {
@@ -94,6 +150,16 @@ export class AddComponent implements OnInit, OnDestroy {
       return planner.name;
     }
     return '';
+  }
+  formatBudget(event: KeyboardEvent): void {
+    let input = this.controls['totalBudget'].value;
+    const numericValue = input.replace(/\D/g, '');
+
+    this.formattedBudget = this.addCommas(numericValue);
+    this.projectForm.controls['totalBudget'].setValue(numericValue);
+  }
+  addCommas(value: string): string {
+    return value.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   }
   ngOnDestroy(): void {
     this._unsubscribeAll.next(null);

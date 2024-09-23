@@ -1,12 +1,20 @@
 import { Component } from '@angular/core';
 import { MatCard, MatCardContent, MatCardTitle } from '@angular/material/card';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ChartConfiguration, ChartType } from 'chart.js';
 import { NgChartsModule } from 'ng2-charts';
+import { AddComponent } from '../../projects/add/add.component';
 
 @Component({
   selector: 'app-budget-card',
   standalone: true,
-  imports: [MatCard, MatCardTitle, MatCardContent, NgChartsModule],
+  imports: [
+    MatCard,
+    MatCardTitle,
+    MatCardContent,
+    NgChartsModule,
+    MatDialogModule,
+  ],
   templateUrl: './budget-card.component.html',
   styleUrl: './budget-card.component.scss',
 })
@@ -16,12 +24,14 @@ export class BudgetCardComponent {
     responsive: true,
     cutout: '80%',
     plugins: {
+      tooltip: {
+        enabled: false,
+      },
       legend: {
         display: false,
       },
     },
   };
-
   public doughnutChartLabels: string[] = [
     'Engineering',
     'Product',
@@ -29,15 +39,22 @@ export class BudgetCardComponent {
     'Others',
   ];
   public doughnutChartData: ChartConfiguration['data'] = {
-    labels: ['Engineering', 'Product', 'Sales', 'Others'],
+    labels: this.doughnutChartLabels,
     datasets: [
       {
         data: [30, 20, 30, 10],
-        backgroundColor: ['#4db6ac', '#aed581', '#ffb74d', '#80deea'],
+        backgroundColor: ['#489E9F', '#81CB85', '#FFC74F', '#70b0b1'],
         borderWidth: 0,
       },
     ],
   };
-
   public doughnutChartType: ChartType = 'doughnut';
+
+  constructor(private dialog: MatDialog) {}
+
+  openDialog() {
+    this.dialog.open(AddComponent, {
+      width: '600px',
+    });
+  }
 }

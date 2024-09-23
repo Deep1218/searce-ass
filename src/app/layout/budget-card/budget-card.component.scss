@@ -1,5 +1,4 @@
 .chart-card {
-  // padding: 20px;
   width: 350px;
   position: relative;
 }
@@ -14,7 +13,8 @@
   color: #f39c12;
   font-size: 14px;
   font-style: italic;
-  font-weight: 400;
+  text-decoration: underline;
+  cursor: pointer;
 }
 .chart-container {
   position: relative;
@@ -27,15 +27,7 @@
 .chart-center {
   position: absolute;
   text-align: center;
-}
-.used {
-  font-size: 24px;
-  font-weight: bold;
-  color: #1d2939;
-}
-.positions {
-  font-size: 14px;
-  color: #6b7280;
+  top: 4.5em;
 }
 .chart-legend {
   margin-bottom: 20px;
@@ -56,16 +48,16 @@
   margin-right: 8px;
 }
 .engineering {
-  background-color: #4db6ac;
+  background-color: #489e9f;
 }
 .product {
-  background-color: #aed581;
+  background-color: #81cb85;
 }
 .sales {
-  background-color: #ffb74d;
+  background-color: #ffc74f;
 }
 .others {
-  background-color: #80deea;
+  background-color: #70b0b1;
 }
 .budget-details {
   margin-top: 20px;

@@ -11,13 +11,11 @@ export class ProjectService {
   private _projects: BehaviorSubject<any> = new BehaviorSubject(null);
   private _project: BehaviorSubject<any> = new BehaviorSubject(null);
   private _pagination: BehaviorSubject<any> = new BehaviorSubject(null);
+  projectId!: string;
 
   private _planners: BehaviorSubject<any> = new BehaviorSubject(null);
   constructor(private http: HttpClient, private socketService: SocketService) {}
 
-  getProject$() {
-    return this._project.asObservable();
-  }
   getAllProjects$() {
     return this._projects.asObservable();
   }
@@ -37,12 +35,9 @@ export class ProjectService {
     );
   }
 
-  getProject(id: number) {
-    return this.http.get(`/projects/${id}`).pipe(
-      tap((response: any) => {
-        this._project.next(response.data);
-      })
-    );
+  getProject() {
+    console.log('Called==========', this.projectId);
+    return this.http.get(`/projects/${this.projectId}`);
   }
 
   create(data: any) {
@@ -51,11 +46,30 @@ export class ProjectService {
   createdlistner() {
     return this.socketService.listen('project:created');
   }
+  update(data: any) {
+    this.socketService.emit('project:update', data);
+  }
+  updateListner() {
+    return this.socketService.listen('project:updated');
+  }
+
   getPlanners() {
     return this.http.get('/users/').pipe(
       tap((res: any) => {
         this._planners.next(res.data);
       })
     );
+  }
+  // Positions
+  getPositions(search: string, searchBy: string) {
+    return this.http.get(`/positions/project/${this.projectId}`, {
+      params: { search, searchBy },
+    });
+  }
+  createPosition(data: any) {
+    this.socketService.emit('position:create', data);
+  }
+  createPositionListner() {
+    return this.socketService.listen('position:created');
   }
 }
