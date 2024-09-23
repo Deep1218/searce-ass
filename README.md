@@ -23,7 +23,3 @@ Follow these steps to run the Angular project:
    ```
 
 4. Once the project is running, update the `apiUrl` and `socketUrl` in the `src/environments/environment.ts` file to point to the appropriate API endpoint.
-
-```
-
-```
