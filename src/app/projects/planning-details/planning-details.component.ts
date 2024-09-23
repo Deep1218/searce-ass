@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -8,15 +8,11 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { BudgetCardComponent } from '../../layout/budget-card/budget-card.component';
 import { ProjectService } from '../project.service';
-import { debounce, debounceTime, Subject, takeUntil } from 'rxjs';
+import { debounceTime, Subject, takeUntil } from 'rxjs';
 import { CommonService } from '../../shared/common.service';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { ActivatedRoute } from '@angular/router';
-import {
-  MAT_DIALOG_DATA,
-  MatDialog,
-  MatDialogModule,
-} from '@angular/material/dialog';
+import { ActivatedRoute, Route, Router, RouterModule } from '@angular/router';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { AddPositionComponent } from './add-position/add-position.component';
 import { CurrencyToShortcodePipe } from '../../shared/pipes/currency-to-shortcode.pipe';
 import {
@@ -42,11 +38,12 @@ import {
     MatSnackBarModule,
     MatDialogModule,
     CurrencyToShortcodePipe,
+    RouterModule,
   ],
   templateUrl: './planning-details.component.html',
   styleUrl: './planning-details.component.scss',
 })
-export class PlanningDetailsComponent implements OnInit {
+export class PlanningDetailsComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = [
     'designation',
     'department',
@@ -63,15 +60,21 @@ export class PlanningDetailsComponent implements OnInit {
   searchForm!: FormGroup;
   dialogRef: any;
   selectedPosition: any;
+  currentProject: any;
+
   private _unsubscribeAll: Subject<any> = new Subject<any>();
   constructor(
     private projectService: ProjectService,
     private commonService: CommonService,
     private route: ActivatedRoute,
+    private router: Router,
     private dialog: MatDialog,
     private fb: FormBuilder
   ) {}
 
+  goBack() {
+    this.router.navigate(['projects']);
+  }
   get controls() {
     return this.searchForm.controls;
   }
@@ -80,6 +83,7 @@ export class PlanningDetailsComponent implements OnInit {
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((params: any) => {
         this.projectService.projectId = params.id;
+        this.projectService.getGraphData();
       });
     this.positionListners();
     this.initForm();
@@ -90,6 +94,12 @@ export class PlanningDetailsComponent implements OnInit {
         this.getPositions(value, this.controls['filter'].value);
       });
     this.getPositions();
+    this.projectService
+      .getProject()
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe((res: any) => {
+        this.currentProject = res.data;
+      });
   }
   initForm() {
     this.searchForm = this.fb.group({
@@ -154,9 +164,11 @@ export class PlanningDetailsComponent implements OnInit {
       );
   }
   openDialog() {
+    console.log('Project============>', this.projectService.projectId);
+
     const dialogRef = this.dialog.open(AddPositionComponent, {
       width: '600px',
-      data: { projectId: this.projectId },
+      data: { projectId: this.projectService.projectId },
     });
   }
   onConfirm(): void {
@@ -195,5 +207,9 @@ export class PlanningDetailsComponent implements OnInit {
         this.controls['filter'].value
       );
     }
+  }
+  ngOnDestroy() {
+    this._unsubscribeAll.next(null);
+    this._unsubscribeAll.complete();
   }
 }

@@ -26,7 +26,7 @@
       />
     </mat-form-field>
 
-    @if(projectId){
+    @if(projectId && dialogData.edit){
     <div class="row">
       <div class="col-6">
         <mat-label class="form-label">Co-planner</mat-label>
@@ -54,7 +54,7 @@
             matInput
             placeholder="Enter budget"
             formControlName="totalBudget"
-            (keyup)="formatBudget($event)"
+            (keyup)="formatBudget()"
             [value]="formattedBudget"
           />
           <mat-error>Project budget is required</mat-error>

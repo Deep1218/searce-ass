@@ -9,7 +9,7 @@ import { SocketService } from '../shared/socket.service';
 })
 export class ProjectService {
   private _projects: BehaviorSubject<any> = new BehaviorSubject(null);
-  private _project: BehaviorSubject<any> = new BehaviorSubject(null);
+  private _selectedProject: BehaviorSubject<any> = new BehaviorSubject(null);
   private _pagination: BehaviorSubject<any> = new BehaviorSubject(null);
   projectId!: string;
 
@@ -25,6 +25,15 @@ export class ProjectService {
 
   getPlanners$() {
     return this._planners.asObservable();
+  }
+
+  get selectedProject$() {
+    return this._selectedProject.asObservable();
+  }
+
+  // Setter: Update the value of the BehaviorSubject
+  set selectedProject(newValue: any) {
+    this._selectedProject.next(newValue);
   }
 
   getProjects() {
@@ -51,7 +60,17 @@ export class ProjectService {
   updateListner() {
     return this.socketService.listen('project:updated');
   }
+  // Calculation
+  getGraphData() {
+    this.socketService.emit('project:generateCalcu', {
+      projectId: this.projectId,
+    });
+  }
+  getGraphDataListner() {
+    return this.socketService.listen('project:generatedCalcu');
+  }
 
+  // Planner
   getPlanners() {
     return this.http.get('/users/').pipe(
       tap((res: any) => {

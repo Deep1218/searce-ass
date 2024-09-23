@@ -7,7 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AddComponent } from '../add/add.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProjectService } from '../project.service';
-import { Subject, takeLast, takeUntil } from 'rxjs';
+import { Subject } from 'rxjs';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -41,11 +41,13 @@ export class ListingComponent implements OnInit {
   openDialog() {
     const dialogRef = this.dialog.open(AddComponent, {
       width: '600px',
+      data: { edit: false },
     });
   }
 
-  onClickProject(id: string) {
-    this.router.navigate(['./planning', `${id}`], {
+  onClickProject(project: any) {
+    this.projectService.selectedProject = project;
+    this.router.navigate(['./planning', `${project.id}`], {
       relativeTo: this.activeRoute,
     });
   }

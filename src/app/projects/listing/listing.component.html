@@ -13,7 +13,7 @@
   <ng-container *ngFor="let project of projects | async">
     <div
       class="col-md-3 rounded-4 p-0 custom-card"
-      (click)="onClickProject(project.id)"
+      (click)="onClickProject(project)"
     >
       <app-project-card [data]="project"></app-project-card>
     </div>

@@ -7,11 +7,11 @@
     <div class="d-flex flex-column align-items-start gap-2 mt-5">
       <div>
         <span><strong>Budget:</strong></span>
-        <p>{{ data.totalBudget }}</p>
+        <p>{{ data.totalBudget | currencyToShortcode }}</p>
       </div>
       <div>
         <span><strong>Total No. of Positions:</strong></span>
-        <p>{{ data.positions ?? "-" }}</p>
+        <p>{{ data.totalPosition ?? "-" }}</p>
       </div>
       <div>
         <span><strong>Co-planners:</strong></span>

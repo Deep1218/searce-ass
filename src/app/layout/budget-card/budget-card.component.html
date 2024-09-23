@@ -20,10 +20,14 @@
         <div
           class="d-flex flex-column justify-content-center align-items-center"
         >
-          <span class="d-block fs-3 fw-bold">1.5 Cr</span>
+          <span class="d-block fs-3 fw-bold">{{
+            calculationData.total?.remaining | currencyToShortcode
+          }}</span>
           <span class="d-block fw-medium mt-2">Used</span>
         </div>
-        <span class="d-block fw-semibold mt-4">12 Positions</span>
+        <span class="d-block fw-semibold mt-4"
+          >{{ calculationData.total?.total_positions ?? 0 }} Positions</span
+        >
       </div>
     </div>
     <div class="chart-legend px-5">
@@ -31,38 +35,53 @@
         <li>
           <span class="legend-color engineering"></span>
           <div class="d-flex justify-content-between align-items-center w-100">
-            Engineering <strong class="block">30%</strong>
+            Engineering
+            <strong class="block"
+              >{{ calculationData.engineering?.percent_used || 0 }}%</strong
+            >
           </div>
         </li>
         <li>
           <span class="legend-color product"></span>
           <div class="d-flex justify-content-between align-items-center w-100">
-            Product <strong class="block">20%</strong>
+            Product
+            <strong class="block"
+              >{{ calculationData.product?.percent_used || 0 }}%</strong
+            >
           </div>
         </li>
         <li>
           <span class="legend-color sales"></span>
           <div class="d-flex justify-content-between align-items-center w-100">
-            Sales <strong class="block">30%</strong>
+            Sales
+            <strong class="block"
+              >{{ calculationData.sales?.percent_used || 0 }}%</strong
+            >
           </div>
         </li>
         <li>
           <span class="legend-color others"></span>
           <div class="d-flex justify-content-between align-items-center w-100">
-            Others <strong class="block">10%</strong>
+            Others
+            <strong class="block"
+              >{{ calculationData.others?.percent_used || 0 }}%</strong
+            >
           </div>
         </li>
       </ul>
     </div>
     <div class="budget-details border-top px-5 py-2">
       <p class="d-flex justify-content-between align-items-center w-100">
-        <strong>Total budget:</strong> ₹ 2 Cr
+        <strong>Total budget:</strong> &#8377;
+        {{ calculationData.total?.totalBudget || 0 | currencyToShortcode }}
       </p>
       <p class="d-flex justify-content-between align-items-center w-100">
-        <strong>Used:</strong> ₹ 1.5 Cr
+        <strong>Used:</strong> &#8377;
+        {{ calculationData.total?.total_used || 0 | currencyToShortcode }}
       </p>
       <p class="d-flex justify-content-between align-items-center w-100">
-        <strong>Left:</strong> ₹ 50 L
+        <strong>Left:</strong> &#8377;
+        {{ calculationData.total?.remaining || 0 | currencyToShortcode }}
       </p>
     </div>
   </mat-card-content>

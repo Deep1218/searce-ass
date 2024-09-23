@@ -50,7 +50,8 @@ export class AddComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private projectService: ProjectService,
     private commonService: CommonService,
-    public dialogRef: MatDialogRef<any>
+    public dialogRef: MatDialogRef<AddComponent>,
+    @Inject(MAT_DIALOG_DATA) public dialogData: any
   ) {}
 
   get controls() {
@@ -58,6 +59,7 @@ export class AddComponent implements OnInit, OnDestroy {
   }
   ngOnInit(): void {
     this.projectId = this.projectService.projectId ?? null;
+
     this.projectService
       .getPlanners()
       .pipe(takeUntil(this._unsubscribeAll))
@@ -75,7 +77,7 @@ export class AddComponent implements OnInit, OnDestroy {
       description: ['', [Validators.required]],
       planners: ['', [Validators.required]],
     });
-    if (this.projectId) {
+    if (this.projectId && this.dialogData.edit) {
       this.controls['name'].disable();
       this.controls['description'].disable();
       this.controls['planners'].disable();
@@ -92,6 +94,8 @@ export class AddComponent implements OnInit, OnDestroy {
       .getProject()
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((res: any) => {
+        console.log('Data==============>', res.data);
+
         this.projectForm.patchValue({
           name: res.data.name,
           description: res.data.description,
@@ -108,7 +112,7 @@ export class AddComponent implements OnInit, OnDestroy {
     }
     let { planners, ...projectDetails } = this.projectForm.getRawValue();
     planners = [planners];
-    if (this.projectId) {
+    if (this.projectId && this.dialogData.edit) {
       this.projectService.update({
         id: this.projectId,
         totalBudget: projectDetails.totalBudget,
@@ -144,12 +148,14 @@ export class AddComponent implements OnInit, OnDestroy {
   }
   getPlannerName(id: number) {
     if (id) {
+      console.log('Planners=========>', this.planners, id);
+
       const planner = this.planners.find((ele) => ele.id === id);
       return planner.name;
     }
     return '';
   }
-  formatBudget(event: KeyboardEvent): void {
+  formatBudget(): void {
     let input = this.controls['totalBudget'].value;
     const numericValue = input.replace(/\D/g, '');
 
