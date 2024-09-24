@@ -61,8 +61,9 @@ export class ProjectService {
     return this.socketService.listen('project:updated');
   }
   // Calculation
-  getGraphData() {
+  getGraphData(userId: any) {
     this.socketService.emit('project:generateCalcu', {
+      userId,
       projectId: this.projectId,
     });
   }

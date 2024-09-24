@@ -19,8 +19,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ProjectService } from '../../project.service';
-import { Subject, takeUntil } from 'rxjs';
-import { CommonService } from '../../../shared/common.service';
+import { Subject } from 'rxjs';
+import { AuthService } from '../../../auth/auth.service';
 
 @Component({
   selector: 'app-add-position',
@@ -51,7 +51,7 @@ export class AddPositionComponent implements OnInit {
     private projectService: ProjectService,
     private dialogRef: MatDialogRef<AddPositionComponent>,
     @Inject(MAT_DIALOG_DATA) public dialogData: any,
-    private commonService: CommonService
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -79,12 +79,14 @@ export class AddPositionComponent implements OnInit {
   }
 
   onSubmit() {
+    const user = this.authService.getUser();
     if (this.positionForm.invalid) {
       return;
     }
     this.projectService.createPosition({
       ...this.positionForm.getRawValue(),
       projectId: this.projectService.projectId,
+      userId: user.userId,
     });
   }
 }

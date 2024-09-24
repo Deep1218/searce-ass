@@ -83,13 +83,11 @@ export class PlanningDetailsComponent implements OnInit, OnDestroy {
   }
   ngOnInit() {
     this.user = this.authService.getUser();
-    console.log('User============>', this.user);
-
     this.route.params
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((params: any) => {
         this.projectService.projectId = params.id;
-        this.projectService.getGraphData();
+        this.projectService.getGraphData(this.user.userId);
       });
     this.positionListners();
     this.initForm();
@@ -170,9 +168,7 @@ export class PlanningDetailsComponent implements OnInit, OnDestroy {
       );
   }
   openDialog() {
-    console.log('Project============>', this.projectService.projectId);
-
-    const dialogRef = this.dialog.open(AddPositionComponent, {
+    this.dialog.open(AddPositionComponent, {
       width: '600px',
       data: { projectId: this.projectService.projectId },
     });
@@ -190,12 +186,15 @@ export class PlanningDetailsComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe(
         (res) => {
-          if (res.success) {
+          if (
+            res.success &&
+            res.data.projectId == this.projectService.projectId
+          ) {
             this.positions.push(res.data);
             this.dataSource = new MatTableDataSource(this.positions);
             this.dialog.closeAll();
             this.commonService.openSnackBar(res.message);
-            this.projectService.getGraphData();
+            this.projectService.getGraphData(this.user.userId);
           } else if (res.error) {
             this.commonService.openErrorSnackBar(res.message);
           }
@@ -216,6 +215,7 @@ export class PlanningDetailsComponent implements OnInit, OnDestroy {
     }
   }
   ngOnDestroy() {
+    this.projectService.projectId = '';
     this._unsubscribeAll.next(null);
     this._unsubscribeAll.complete();
   }

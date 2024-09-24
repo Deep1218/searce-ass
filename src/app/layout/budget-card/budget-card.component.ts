@@ -88,28 +88,33 @@ export class BudgetCardComponent implements OnInit {
     this.projectService
       .getGraphDataListner()
       .pipe(takeUntil(this._unsubscribeAll))
-      .subscribe((data) => {
-        this.calculationData.total = data.data
-          .filter((ele: any) => !!ele.total_used)
-          .pop();
-        this.calculationData.engineering = data.data
-          .filter((ele: any) => {
-            if (ele?.percent_used) {
-              ele.percent_used = parseFloat(ele.percent_used).toFixed(2);
-            }
-            return ele?.department === 'engineering';
-          })
-          .pop();
-        this.calculationData.product = data.data
-          .filter((ele: any) => ele?.department === 'product')
-          .pop();
-        this.calculationData.sales = data.data
-          .filter((ele: any) => ele?.department === 'sales')
-          .pop();
-        this.calculationData.others = data.data
-          .filter((ele: any) => ele?.department === 'others')
-          .pop();
-        this.setGraphData();
+      .subscribe((socketRes) => {
+        if (
+          socketRes.success &&
+          socketRes.data.projectId === this.projectService.projectId
+        ) {
+          this.calculationData.total = socketRes.data.result
+            .filter((ele: any) => !!ele.total_used)
+            .pop();
+          this.calculationData.engineering = socketRes.data.result
+            .filter((ele: any) => {
+              if (ele?.percent_used) {
+                ele.percent_used = parseFloat(ele.percent_used).toFixed(2);
+              }
+              return ele?.department === 'engineering';
+            })
+            .pop();
+          this.calculationData.product = socketRes.data.result
+            .filter((ele: any) => ele?.department === 'product')
+            .pop();
+          this.calculationData.sales = socketRes.data.result
+            .filter((ele: any) => ele?.department === 'sales')
+            .pop();
+          this.calculationData.others = socketRes.data.result
+            .filter((ele: any) => ele?.department === 'others')
+            .pop();
+          this.setGraphData();
+        }
       });
   }
 }
