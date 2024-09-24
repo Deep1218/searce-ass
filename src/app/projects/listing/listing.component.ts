@@ -7,8 +7,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { AddComponent } from '../add/add.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProjectService } from '../project.service';
-import { Subject } from 'rxjs';
-import { CommonModule } from '@angular/common';
+import { Observable, Subject } from 'rxjs';
+import { AsyncPipe, CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-listing',
@@ -19,12 +19,13 @@ import { CommonModule } from '@angular/common';
     MatIconModule,
     MatButtonModule,
     MatFormFieldModule,
+    AsyncPipe,
   ],
   templateUrl: './listing.component.html',
   styleUrl: './listing.component.scss',
 })
 export class ListingComponent implements OnInit {
-  projects: any;
+  projects$!: Observable<any>;
   private _unsubscribeAll: Subject<any> = new Subject<any>();
 
   constructor(
@@ -35,7 +36,7 @@ export class ListingComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.projects = this.projectService.getAllProjects$();
+    this.projects$ = this.projectService.getAllProjects$();
   }
 
   openDialog() {
